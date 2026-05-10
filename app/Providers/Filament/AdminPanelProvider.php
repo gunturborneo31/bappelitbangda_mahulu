@@ -47,17 +47,17 @@ class AdminPanelProvider extends PanelProvider
                      <div style="background: white; padding: 6px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #f8fafc; display: flex; align-items: center; justify-content: center; width: 42px; height: 42px;">
                          
                          <!-- TODO: UNTUK MEMASANG LOGO NANTI, UNCOMMENT BARIS DI BAWAH INI -->
-                         <!-- <img src="/images/logo-anda.png" alt="Logo" style="max-height: 100%; max-width: 100%; object-fit: contain;"> -->
+                         <img src="/images/logo_mahulu.png" alt="Logo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                          
                          <!-- ... LALU HAPUS SVG PLACEHOLDER INI -->
-                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                         <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="3" x2="21" y1="22" y2="22"/>
                             <line x1="6" x2="6" y1="18" y2="11"/>
                             <line x1="10" x2="10" y1="18" y2="11"/>
                             <line x1="14" x2="14" y1="18" y2="11"/>
                             <line x1="18" x2="18" y1="18" y2="11"/>
                             <polygon points="12 2 20 7 4 7"/>
-                         </svg>
+                         </svg> --!>
                      </div>
                     <span style="
                         font-weight: 850; 
@@ -67,7 +67,7 @@ class AdminPanelProvider extends PanelProvider
                         line-height: 1;
                         font-family: \'Plus Jakarta Sans\', sans-serif;
                     ">
-                        CMS Government<br>
+                        CMS Bappelitbangda Mahulu<br>
                         <span style="font-size: 0.65rem; color: #2563eb; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">' . __('Admin Panel') . '</span>
                     </span>
                 </div>

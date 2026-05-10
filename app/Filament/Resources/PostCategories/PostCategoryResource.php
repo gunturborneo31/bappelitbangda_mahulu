@@ -18,11 +18,16 @@ class PostCategoryResource extends Resource
 {
     protected static ?string $model = PostCategory::class;
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
     public static function getNavigationGroup(): ?string
     {
-        return 'Buletin';
+        return 'Website';
+    }
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return __('Info & Berita');
     }
 
     public static function getNavigationLabel(): string

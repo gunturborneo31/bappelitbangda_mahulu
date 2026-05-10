@@ -10,4 +10,9 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
     --font-montserrat: 'Montserrat', sans-serif;
     --font-inter: 'Inter', sans-serif;
+    --color-instansi-primary: #0f2747;
+    --color-instansi-surface: #f8fafc;
+    --color-instansi-action: #f59e0b;
+    --color-instansi-text-main: #0f172a;
+    --color-instansi-text-muted: #64748b;
 }

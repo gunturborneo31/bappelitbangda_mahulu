@@ -17,12 +17,17 @@ class PpidRequestResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return false;
+        return true;
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return 'Portal';
+        return 'Website';
+    }
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return __('PPID');
     }
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;

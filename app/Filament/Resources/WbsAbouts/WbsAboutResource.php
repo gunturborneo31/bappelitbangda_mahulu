@@ -24,7 +24,7 @@ use Filament\Tables\Table;
 class WbsAboutResource extends Resource
 {
     protected static ?string $model = WbsAbout::class;
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInformationCircle;
 

@@ -34,7 +34,7 @@ class PpidAboutResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return false;
+        return true;
     }
 
     public static function getNavigationIcon(): string|BackedEnum|null
@@ -44,7 +44,12 @@ class PpidAboutResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return 'PPID';
+        return 'Website';
+    }
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return __('PPID');
     }
 
     public static function getNavigationLabel(): string

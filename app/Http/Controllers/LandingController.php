@@ -73,18 +73,7 @@ class LandingController extends Controller
             })
             ->values();
 
-        $allLinks = Service::query()
-            ->with('file')
-            ->where('status', true)
-            ->orderBy('name')
-            ->get()
-            ->map(fn (Service $service) => [
-                'name' => $service->name,
-                'desc' => $service->description,
-                'link' => $service->link ?: '#',
-                'logo' => $this->resolveMediaUrl($service->file?->storage_path ?? $service->file?->path, asset('images/Mahakam_Ulu.webp')),
-            ])
-            ->values();
+        $allLinks = $this->serviceLinks();
 
         return view('landing', [
             'site' => $site,
@@ -94,6 +83,32 @@ class LandingController extends Controller
             'agendaItems' => $agendaItems,
             'allLinks' => $allLinks,
         ]);
+    }
+
+    public function showEGovPage()
+    {
+        return view('egov', [
+            'allLinks' => $this->serviceLinks(),
+        ]);
+    }
+
+    private function serviceLinks()
+    {
+        return Service::query()
+            ->with('file')
+            ->where('status', true)
+            ->orderBy('name')
+            ->get()
+            ->map(fn (Service $service) => [
+                'name' => $service->name,
+                'desc' => $service->description,
+                'link' => $service->link ?: '#',
+                'logo' => $this->resolveMediaUrl(
+                    $service->file?->storage_path ?? $service->file?->path,
+                    $this->serviceLogoFallback($service->name)
+                ),
+            ])
+            ->values();
     }
 
     private function resolveMediaUrl(?string $path, string $fallback): string
@@ -107,5 +122,21 @@ class LandingController extends Controller
         }
 
         return asset('storage/' . ltrim($path, '/'));
+    }
+
+    private function serviceLogoFallback(?string $serviceName): string
+    {
+        $name = Str::upper(trim((string) $serviceName));
+
+        return match (true) {
+            Str::contains($name, 'E-CATALOGUE') => asset('images/logo_e_catalogue.webp'),
+            Str::contains($name, 'LAPOR') => asset('images/logo_lapor_go_id.png'),
+            Str::contains($name, 'LPSE') => asset('images/lpse.webp'),
+            Str::contains($name, 'SIPD') => asset('images/logo_sipd_kemendagri.png'),
+            Str::contains($name, 'SIRUP') => asset('images/logo_sirup.png'),
+            Str::contains($name, 'SRIKANDI') => asset('images/logo_srikandi.webp'),
+            Str::contains($name, 'KEMENDAGRI') => asset('images/logo_sipd_kemendagri.png'),
+            default => asset('images/logo_mahulu.png'),
+        };
     }
 }

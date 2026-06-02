@@ -21,6 +21,13 @@ use App\Http\Controllers\FrontendPageController;
 
 // Redirect root to admin panel
 // Route::get('/', function () { return redirect('/site-admin'); });
+// use Illuminate\Support\Facades\Artisan;
+
+// Route::get('/link', function () {
+//     Artisan::call('storage:link');
+//     return 'Storage link berhasil dibuat!';
+// });
+
 Route::get('/', [LandingController::class, 'index'])->name('beranda');
 
 
@@ -46,7 +53,8 @@ Route::prefix('dokumen-stats')->name('stats.')->group(function () {
     Route::post('/batch', [DocumentStatsController::class, 'batch'])->name('batch');
 });
 
-Route::view('/portal', 'portal')->name('portal');
+Route::get('/e-gov', [LandingController::class, 'showEGovPage'])->name('egov');
+Route::redirect('/portal', '/e-gov', 301)->name('portal');
 
 // Profil Routes
 Route::prefix('profil')->name('profil.')->group(function () {
@@ -92,6 +100,8 @@ Route::prefix('dokumen')->name('dokumen.')->group(function () {
 
 // PPID Routes
 Route::prefix('ppid')->name('ppid.')->group(function () {
+    Route::get('/', [FrontendPageController::class, 'showPpidHub'])->name('index');
+    Route::get('/informasi', [FrontendPageController::class, 'showPpidInformationTypes'])->name('informasi');
     Route::get('/berkala', [FrontendPageController::class, 'showLibraryPage'])->defaults('section', 'ppid')->defaults('slug', 'berkala')->name('berkala');
     Route::get('/serta-merta', [FrontendPageController::class, 'showLibraryPage'])->defaults('section', 'ppid')->defaults('slug', 'serta-merta')->name('serta-merta');
     Route::get('/setiap-saat', [FrontendPageController::class, 'showLibraryPage'])->defaults('section', 'ppid')->defaults('slug', 'setiap-saat')->name('setiap-saat');

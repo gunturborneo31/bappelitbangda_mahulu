@@ -1,10 +1,14 @@
+@php
+    $isPpidMode = request()->is('ppid*');
+@endphp
+
 <div x-data="{
         scrolled: false,
         init() {
             window.addEventListener('scroll', () => {
                 this.scrolled = window.pageYOffset > 20;
             });
-            this.scrolled = window.pageYOffset > 20;
+            this.scrolled = window.pageYOffset > 20;    
         }
     }" 
     class="fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-out pointer-events-none flex justify-center"
@@ -17,7 +21,7 @@
              : 'max-w-[1920px] bg-[#0f1e3a]/95 md:bg-slate-900/95 backdrop-blur-md border-b border-white/10 shadow-lg rounded-none h-[72px] px-2 sm:px-8 lg:px-12'">
 
         {{-- ═══ Logo Area ═══ --}}
-        <a href="{{ route('beranda') }}" wire:navigate class="flex items-center justify-center gap-2 shrink-0 mr-1 sm:mr-4 z-50 group">
+        <a href="{{ $isPpidMode ? route('ppid.index') : route('beranda') }}" wire:navigate class="flex items-center justify-center gap-2 shrink-0 mr-1 sm:mr-4 z-50 group">
 
             <div class="relative flex items-center justify-center transition-all duration-500 shrink-0"
                  :class="scrolled ? 'w-10 h-10 md:w-11 md:h-11 ml-0 md:ml-0' : 'w-12 h-12 md:w-16 md:h-16 ml-0 md:ml-0'">
@@ -44,7 +48,20 @@
 
             {{-- ── DESKTOP MENU (tersembunyi di mobile) ── --}}
             @php
-                $menuItems = [
+                if ($isPpidMode) {
+                    $menuItems = [
+                        ['label' => 'Beranda PPID', 'href' => '/ppid', 'icon' => '<svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>'],
+                        ['label' => 'Informasi', 'type' => 'dropdown', 'icon' => '<svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>', 'items' => [
+                            ['label' => 'Semua Jenis Informasi', 'href' => '/ppid/informasi'],
+                            ['label' => 'Informasi Berkala', 'href' => '/ppid/berkala'],
+                            ['label' => 'Informasi Serta Merta', 'href' => '/ppid/serta-merta'],
+                            ['label' => 'Informasi Setiap Saat', 'href' => '/ppid/setiap-saat'],
+                            ['label' => 'Informasi Dikecualikan', 'href' => '/ppid/dikecualikan'],
+                        ]],
+                        ['label' => 'Permohonan', 'href' => '/ppid/permohonan', 'icon' => '<svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>'],
+                    ];
+                } else {
+                    $menuItems = [
                     ['label' => 'Beranda', 'href' => '/', 'icon' => '<svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>'],
                     ['label' => 'Profil', 'type' => 'dropdown', 'icon' => '<svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>', 'items' => [
                         ['label' => 'Visi & Misi', 'href' => '/profil/visi-misi'],
@@ -82,7 +99,8 @@
                         ['label' => 'Survey Kepuasan', 'href' => '/layanan/survey'],
                         ['label' => 'WBS (Whistleblowing)', 'href' => '/layanan/wbs'],
                     ]],
-                ];
+                    ];
+                }
             @endphp
 
             <ul class="hidden md:flex items-center justify-center gap-1 sm:gap-2 m-0 h-full w-full px-1">
@@ -167,33 +185,41 @@
         <div class="flex items-center gap-2 shrink-0 ml-1 sm:ml-2 z-50">
 
             {{-- Desktop --}}
-            <a href="/ppid/permohonan" wire:navigate
+            <a href="{{ $isPpidMode ? route('beranda') : route('ppid.index') }}" wire:navigate
                class="hidden md:inline-flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl group whitespace-nowrap"
                :class="scrolled
-                   ? 'px-5 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 text-slate-900 font-bold text-xs hover:scale-105 border border-yellow-300/50'
-                   : 'px-6 py-2.5 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 font-bold text-sm text-slate-900 border border-yellow-300/50 hover:bg-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.3)]'">
-                <span class="group-hover:tracking-wide transition-all duration-300">Akses PPID</span>
+                   ? 'px-3  rounded-full bg-gradient-to-r from-white to-white text-slate-900 font-bold text-xs hover:scale-105 border border-white'
+                   : 'px-4  rounded-full bg-gradient-to-r from-white to-white font-bold text-sm text-slate-900 border border-white hover:bg-white shadow-[0_0_15px_rgba(234,179,8,0.3)]'">
+                @if ($isPpidMode)
+                    <span class="group-hover:tracking-wide transition-all duration-300">Web Utama</span>
+                @else
+                    <img src="/images/logo_ppid.png" alt="PPID Logo" class="h-9 w-auto" />
+                @endif
             </a>
 
-            <a href="/portal" wire:navigate
+            <a href="{{ route('egov') }}" wire:navigate
                class="hidden md:inline-flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl group whitespace-nowrap"
                :class="scrolled
                    ? 'px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-xs hover:scale-105 border border-blue-400/30'
                    : 'px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-700 font-bold text-sm text-white border border-blue-400/30 hover:brightness-110 shadow-[0_0_15px_rgba(37,99,235,0.3)]'">
-                <span class="group-hover:tracking-wide transition-all duration-300">Menu Portal</span>
+                <span class="group-hover:tracking-wide transition-all duration-300">e-Gov</span>
             </a>
 
             {{-- Mobile: pill dengan ikon + label --}}
-            <a href="/ppid/permohonan" wire:navigate
+            <a href="{{ $isPpidMode ? route('beranda') : route('ppid.index') }}" wire:navigate
                class="md:hidden flex items-center gap-1.5 transition-all duration-300 active:scale-95"
                :class="scrolled
-                   ? 'px-2.5 py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 text-slate-900 border border-yellow-300/50 shadow-md'
-                   : 'px-2.5 py-1.5 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-900 border border-yellow-300/50 shadow-[0_0_12px_rgba(234,179,8,0.35)]'">
+                   ? 'px-2.5 py-1.5 rounded-full bg-gradient-to-r from-white to-white text-slate-900 border border-blue-300/50 shadow-md'
+                   : 'px-2.5 py-1.5 rounded-full bg-gradient-to-r from-white to-whtie text-slate-900 border border-blue-300/50 shadow-[0_0_12px_rgba(234,179,8,0.35)]'">
                 {{-- Ikon dokumen informasi --}}
                 <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                 </svg>
-                <span class="font-black text-[10px] tracking-widest leading-none">PPID</span>
+                @if ($isPpidMode)
+                    <span class="font-black text-[10px] tracking-widest leading-none">WEB</span>
+                @else
+                    <img src="/images/logo_ppid.png" alt="PPID Logo" class="h-4 w-auto" />
+                @endif
             </a>
 
         </div>

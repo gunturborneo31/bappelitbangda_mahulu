@@ -272,6 +272,81 @@ class FrontendPageController extends Controller
         ]);
     }
 
+    public function showPpidHub()
+    {
+        return view('pages.ppid.index', [
+            'site' => WebsiteIdentity::query()->latest('id')->first(),
+        ]);
+    }
+
+    public function showPpidInformationTypes()
+    {
+        $types = collect([
+            [
+                'slug' => 'serta-merta',
+                'title' => 'Informasi Serta Merta',
+                'description' => 'Informasi yang wajib diumumkan tanpa penundaan ketika berdampak pada hajat hidup orang banyak.',
+            ],
+            [
+                'slug' => 'setiap-saat',
+                'title' => 'Informasi Setiap Saat',
+                'description' => 'Informasi yang harus tersedia setiap saat dan dapat diberikan kepada pemohon informasi publik.',
+            ],
+            [
+                'slug' => 'berkala',
+                'title' => 'Informasi Berkala',
+                'description' => 'Informasi publik yang diumumkan secara rutin dan berkala oleh badan publik.',
+            ],
+            [
+                'slug' => 'dikecualikan',
+                'title' => 'Informasi Dikecualikan',
+                'description' => 'Informasi tertentu yang dikecualikan dari keterbukaan sesuai peraturan perundang-undangan.',
+            ],
+        ])->map(function (array $type) {
+            $page = $this->findPpidPage('ppid', $type['slug']);
+
+            if (! $page) {
+                return $type + [
+                    'exists' => false,
+                    'categories' => collect(),
+                ];
+            }
+
+            $statsMap = $this->loadStatsMap($page);
+            $directItems = $this->mapLibraryItems($page->items, $statsMap, 'Tersedia')->values();
+
+            $childCategories = $page->children
+                ->filter(fn (Ppid $child) => $child->items->isNotEmpty())
+                ->values()
+                ->map(function (Ppid $child) use ($statsMap, $type) {
+                    return [
+                        'title' => $child->name,
+                        'rows' => $this->mapLibraryItems($child->items, $statsMap, 'Tersedia')->values(),
+                        'categorySlug' => $type['slug'],
+                    ];
+                });
+
+            if ($childCategories->isEmpty() && $directItems->isNotEmpty()) {
+                $childCategories = collect([[
+                    'title' => 'Daftar Informasi',
+                    'rows' => $directItems,
+                    'categorySlug' => $type['slug'],
+                ]]);
+            }
+
+            return $type + [
+                'exists' => true,
+                'categories' => $childCategories,
+            ];
+        })->values();
+
+        return view('pages.ppid.information-types', [
+            'types' => $types,
+            'defaultTypeSlug' => data_get($types->first(), 'slug', 'serta-merta'),
+            'site' => WebsiteIdentity::query()->latest('id')->first(),
+        ]);
+    }
+
     public function storePpidRequest(Request $request): JsonResponse
     {
         $data = $request->validate([

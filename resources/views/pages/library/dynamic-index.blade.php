@@ -35,10 +35,14 @@
                 </div>
 
                 @if($section === 'dokumen')
-                    @php($dokumenCategory = $slug)
+                        @php
+                            $dokumenCategory = $slug;
+                        @endphp
                     @include('pages.dokumen._document-list')
                 @elseif($section === 'regulasi')
-                    @php($regulasiCategory = $slug)
+                        @php
+                            $regulasiCategory = $slug;
+                        @endphp
                     @include('pages.regulasi._regulation-list')
                 @elseif($accordions->isNotEmpty())
                     <div class="space-y-4">
@@ -59,7 +63,9 @@
                         @endforeach
                     </div>
                 @else
-                    @php($ppidCategory = $slug)
+                    @php
+                        $ppidCategory = $slug;
+                    @endphp
                     @include('pages.ppid._informasi-list')
                 @endif
             </main>

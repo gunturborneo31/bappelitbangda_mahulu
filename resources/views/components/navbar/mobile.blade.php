@@ -10,8 +10,62 @@
     $beritaActive   = request()->is('berita*');
     $ppidActive     = request()->is('ppid*');
     $berandaActive  = request()->is('/');
-    $portalActive   = request()->is('portal*');
+    $egovActive     = request()->is('e-gov*') || request()->is('portal*');
 @endphp
+
+@if($ppidActive)
+<div class="md:hidden">
+    <nav class="fixed bottom-0 inset-x-0 z-[90]"
+         style="height: calc(72px + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom);">
+        <div class="absolute inset-0 bg-[#04091a]/97 backdrop-blur-2xl border-t border-blue-500/20"
+             style="box-shadow: 0 -4px 40px rgba(59,130,246,0.12), 0 -1px 0 rgba(59,130,246,0.15);"></div>
+        <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/70 to-transparent"></div>
+
+        <div class="relative z-10 flex items-center justify-around h-[72px] px-2">
+            @php
+                $ppidHubActive = request()->routeIs('ppid.index');
+                $ppidInfoActive = request()->routeIs('ppid.informasi') || request()->routeIs('ppid.berkala') || request()->routeIs('ppid.serta-merta') || request()->routeIs('ppid.setiap-saat') || request()->routeIs('ppid.dikecualikan');
+                $ppidPermohonanActive = request()->routeIs('ppid.permohonan') || request()->routeIs('ppid.permohonan.status');
+            @endphp
+
+            <a href="{{ route('ppid.index') }}" wire:navigate
+               class="flex flex-col items-center justify-center gap-1.5 w-[62px] h-[68px] px-1 rounded-2xl transition-all duration-200 active:scale-90 relative group {{ $ppidHubActive ? 'text-blue-400' : 'text-slate-500 hover:text-blue-300' }}">
+                @if($ppidHubActive)
+                    <span class="absolute inset-0 bg-blue-500/12 rounded-2xl border border-blue-500/25"></span>
+                @endif
+                <svg class="w-[20px] h-[20px] relative z-10" fill="{{ $ppidHubActive ? 'currentColor' : 'none' }}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="{{ $ppidHubActive ? 0 : 1.7 }}"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span class="text-[9px] font-bold tracking-wide leading-none">Hub</span>
+            </a>
+
+            <a href="{{ route('ppid.informasi') }}" wire:navigate
+               class="flex flex-col items-center justify-center gap-1.5 w-[62px] h-[68px] px-1 rounded-2xl transition-all duration-200 active:scale-90 relative group {{ $ppidInfoActive ? 'text-blue-400' : 'text-slate-500 hover:text-blue-300' }}">
+                @if($ppidInfoActive)
+                    <span class="absolute inset-0 bg-blue-500/12 rounded-2xl border border-blue-500/25"></span>
+                @endif
+                <svg class="w-[20px] h-[20px] relative z-10" fill="{{ $ppidInfoActive ? 'currentColor' : 'none' }}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="{{ $ppidInfoActive ? 0 : 1.7 }}"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span class="text-[9px] font-bold tracking-wide leading-none">Informasi</span>
+            </a>
+
+            <a href="{{ route('ppid.permohonan') }}" wire:navigate
+               class="flex flex-col items-center justify-center gap-1.5 w-[62px] h-[68px] px-1 rounded-2xl transition-all duration-200 active:scale-90 relative group {{ $ppidPermohonanActive ? 'text-blue-400' : 'text-slate-500 hover:text-blue-300' }}">
+                @if($ppidPermohonanActive)
+                    <span class="absolute inset-0 bg-blue-500/12 rounded-2xl border border-blue-500/25"></span>
+                @endif
+                <svg class="w-[20px] h-[20px] relative z-10" fill="{{ $ppidPermohonanActive ? 'currentColor' : 'none' }}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="{{ $ppidPermohonanActive ? 0 : 1.7 }}"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span class="text-[9px] font-bold tracking-wide leading-none">Permohonan</span>
+            </a>
+
+            <a href="{{ route('beranda') }}" wire:navigate
+               class="flex flex-col items-center justify-center gap-1.5 w-[62px] h-[68px] px-1 rounded-2xl transition-all duration-200 active:scale-90 relative group text-yellow-500 hover:text-yellow-300">
+                <svg class="w-[20px] h-[20px] relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m2.586-9.586a2 2 0 112.828 2.828L11 19H8v-3l12.586-12.586z"/></svg>
+                <span class="text-[9px] font-bold tracking-wide leading-none">Web</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="h-[72px]" aria-hidden="true"></div>
+</div>
+@else
 
 <div class="md:hidden"
      x-data="{ activeSheet: null, toggleSheet(m){ this.activeSheet = this.activeSheet === m ? null : m }, closeSheet(){ this.activeSheet = null } }"
@@ -392,26 +446,26 @@
                 <span class="text-[9px] font-bold tracking-wide relative z-10 leading-none">PPID</span>
             </a>
 
-            {{-- ── PORTAL (special blue accent) ── --}}
-            <a href="/portal" wire:navigate
+            {{-- ── E-GOV (special blue accent) ── --}}
+            <a href="{{ route('egov') }}" wire:navigate
                class="flex flex-col items-center justify-center gap-1.5 w-[52px] h-[68px] px-1 rounded-2xl transition-all duration-200 active:scale-90 relative group
-                      {{ $portalActive ? 'text-blue-400' : 'text-slate-500 hover:text-blue-300' }}">
-                @if($portalActive)
+                      {{ $egovActive ? 'text-blue-400' : 'text-slate-500 hover:text-blue-300' }}">
+                @if($egovActive)
                     <span class="absolute inset-0 bg-blue-500/12 rounded-2xl border border-blue-500/25"
                           style="box-shadow: 0 0 15px rgba(59,130,246,0.2) inset;"></span>
                 @endif
                 <div class="relative w-7 h-7 flex items-center justify-center">
-                    @if($portalActive)
+                    @if($egovActive)
                         <span class="absolute inset-0 bg-blue-500/20 rounded-xl border border-blue-400/30"
                               style="box-shadow: 0 0 12px rgba(59,130,246,0.4);"></span>
                     @endif
                     <svg class="w-[20px] h-[20px] relative z-10 transition-transform duration-200 group-hover:scale-110"
-                         fill="{{ $portalActive ? 'currentColor' : 'none' }}"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="{{ $portalActive ? 0 : 1.7 }}">
+                         fill="{{ $egovActive ? 'currentColor' : 'none' }}"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="{{ $egovActive ? 0 : 1.7 }}">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
                     </svg>
                 </div>
-                <span class="text-[9px] font-bold tracking-wide relative z-10 leading-none">Portal</span>
+                <span class="text-[9px] font-bold tracking-wide relative z-10 leading-none">e-Gov</span>
             </a>
 
         </div>
@@ -421,3 +475,4 @@
     <div class="h-[72px]" aria-hidden="true"></div>
 
 </div>
+    @endif

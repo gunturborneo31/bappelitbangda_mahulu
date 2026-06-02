@@ -1,11 +1,12 @@
 @php
     $perPage = 5;
     $currentPage = request()->get('page', 1);
-    $totalItems = count($regulations);
+    $regulationsCollection = collect($regulations)->values();
+    $totalItems = $regulationsCollection->count();
     $totalPages = max(1, ceil($totalItems / $perPage));
     $currentPage = max(1, min($currentPage, $totalPages));
     $offset = ($currentPage - 1) * $perPage;
-    $paginatedRegulations = array_slice($regulations, $offset, $perPage);
+    $paginatedRegulations = $regulationsCollection->slice($offset, $perPage)->values();
 
     $statsMap = $statsMap ?? [];
 @endphp

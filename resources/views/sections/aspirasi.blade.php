@@ -17,7 +17,7 @@
                     <h2 class="font-montserrat font-black text-3xl md:text-4xl lg:text-5xl text-white tracking-tight mb-6">
                         Layanan <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-200">Aspirasi & Pengaduan</span>
                     </h2>
-                    <p class="text-slate-400 text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-medium">Sampaikan masukan konstruktif, pengaduan, dan saran untuk pembangunan, atau terhubung langsung melalui kanal media sosial resmi Bappelitbangda Mahakam Ulu.</p>
+                    <p class="text-slate-400 text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-medium">Sampaikan masukan konstruktif, pengaduan, dan saran untuk pembangunan, atau terhubung langsung melalui kanal media sosial resmi <label class="whitespace-nowrap">Bappelitbangda Mahakam Ulu.</label></p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
